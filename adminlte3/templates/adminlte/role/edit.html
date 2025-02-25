@@ -1,0 +1,49 @@
+{% extends 'adminlte/base.html' %}
+
+{% block content %}
+<div class="container rounded bg-white">
+    <form id="formRole" action="{% url 'edit_role' role.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="PUT"> <!-- Django không hỗ trợ trực tiếp PUT trong form -->
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="p-3 py-5">
+                        <div class="modal-header" style="background-color:black;">
+                            <h5 class="modal-title" style="color:white;">Role Information</h5>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">Role name</label>
+                                <input id="name" name="name" type="text" class="form-control" placeholder="Enter name" value="{{ role.name }}" readonly>
+                                {{ form.name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Role description</label>
+                                <input id="description" name="description" type="text" class="form-control" value="{{ role.description }}" placeholder="Enter description">
+                                {{ form.description.errors }}
+                            </div>
+                        </div>
+                        <div class="mt-5 text-center">
+                            <button id="cancelBtn" class="btn btn-secondary profile-button" type="button">Cancel</button>
+                            <button id="saveBtn" class="btn btn-primary profile-button" type="submit">Save Role</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

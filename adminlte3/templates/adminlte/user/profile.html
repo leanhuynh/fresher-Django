@@ -1,0 +1,129 @@
+{% extends 'adminlte/base.html' %}
+
+{% block content %}
+<div class="container rounded bg-white">
+    <form id="formProfile" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="row">
+                <!-- Profile Image Upload -->
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <label for="fileInput" class="position-relative" style="cursor: pointer;">
+                            <div id="imageContainer">
+                                {% if user.avatar %}
+                                    <img id="profileImage" class="rounded-circle profile-pic mt-3" width="150px"
+                                         src="{{ user.avatar.url }}" alt="Profile Picture">
+                                {% else %}
+                                    <span id="noImageText" class="text-muted">No Image (click to Upload)</span>
+                                {% endif %}
+                            </div>
+                            <input type="file" id="fileInput" name="avatar" class="d-none" accept="image/*">
+                        </label>
+                        <span class="font-weight-bold">{{ user.name }}</span>
+                        <span class="text-black-50">{{ user.email }}</span>
+                        {% if form.avatar.errors %}
+                            <div class="text-danger mt-1">{{ form.avatar.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Profile Information Form -->
+                <div class="col-md-9 border-right">
+                    <div class="p-3 py-5">
+                        <div class="modal-header bg-black">
+                            <h5 class="modal-title text-white">Profile Information</h5>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">First name <span class="text-danger">*</span></label>
+                                <input id="first_name" name="first_name" type="text"
+                                       class="form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                                       placeholder="First name" value="{{ form.first_name.value|default_if_none:'' }}">
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger mt-1">{{ form.first_name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Last name <span class="text-danger">*</span></label>
+                                <input id="last_name" name="last_name" type="text"
+                                       class="form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                                       placeholder="Last name" value="{{ form.last_name.value|default_if_none:'' }}">
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger mt-1">{{ form.last_name.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">User name <span class="text-danger">*</span></label>
+                                <input id="user_name" name="user_name" type="text"
+                                       class="form-control {% if form.user_name.errors %}is-invalid{% endif %}"
+                                       placeholder="User name" value="{{ form.user_name.value|default_if_none:'' }}">
+                                {% if form.user_name.errors %}
+                                    <div class="text-danger mt-1">{{ form.user_name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Role (If no choose, no change for role) <span class="text-danger">*</span></label>
+                                <select id="role" class="custom-select" name="role_id">
+                                    <option value="">--Select Role--</option>
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>
+                                            {{ role.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                {% if form.role_id.errors %}
+                                    <div class="text-danger mt-1">{{ form.role_id.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Email <span class="text-danger">*</span></label>
+                                <input id="email" name="email" type="email"
+                                       class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                       placeholder="Enter email" value="{{ form.email.value|default_if_none:'' }}">
+                                {% if form.email.errors %}
+                                    <div class="text-danger mt-1">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Address</label>
+                                <input id="address" name="address" type="text"
+                                       class="form-control {% if form.address.errors %}is-invalid{% endif %}"
+                                       placeholder="Enter your address" value="{{ form.address.value|default_if_none:'' }}">
+                                {% if form.address.errors %}
+                                    <div class="text-danger mt-1">{{ form.address.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button id="cancelBtn" class="btn btn-secondary profile-button" type="button">Cancel</button>
+                            <button id="saveBtn" class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

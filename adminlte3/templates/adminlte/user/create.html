@@ -1,0 +1,102 @@
+{% extends 'adminlte/base.html' %}
+
+{% block content %}
+<div class="container rounded bg-white">
+    <form id="formProfile" action="{% url 'create_user' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <!-- Profile Image -->
+                        <label for="fileInput" class="position-relative" style="cursor: pointer;">
+                            <div id="imageContainer">
+                                <img id="profileImage" class="rounded-circle profile-pic mt-3 d-none" width="150px" alt="Profile Picture">
+                                <span id="noImageText" class="text-muted">No Image (click to Upload)</span>
+                            </div>
+                            <input type="file" id="fileInput" name="avatar" class="d-none" accept="image/*">
+                        </label>
+                        {{ form.avatar.errors }}
+                    </div>
+                </div>
+                <div class="col-md-9 border-right">
+                    <div class="p-3 py-5">
+                        <div class="modal-header" style="background-color:black;">
+                            <h5 class="modal-title" style="color:white;">Profile Information</h5>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">First name <span style="color:red">*</span></label>
+                                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First name" value="{{ form.first_name.value|default_if_none:'' }}">
+                                {{ form.first_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Last name <span style="color:red">*</span></label>
+                                <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last name" value="{{ form.last_name.value|default_if_none:'' }}">
+                                {{ form.last_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">User name <span style="color:red">*</span></label>
+                                <input id="user_name" name="user_name" type="text" class="form-control" placeholder="User name" value="{{ form.user_name.value|default_if_none:'' }}">
+                                {{ form.user_name.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Role (Default is Admin) <span style="color:red">*</span></label>
+                                <select id="role" name="role_id" class="custom-select">
+                                    <option value="">--Select Role--</option>
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}" {% if form.role_id.value == role.id %}selected{% endif %}>
+                                            {{ role.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                {{ form.role_id.errors }}
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Current Address</label>
+                                <input id="address" name="address" type="text" class="form-control" placeholder="Enter address line" value="{{ form.address.value|default_if_none:'' }}">
+                                {{ form.address.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Email <span style="color:red">*</span></label>
+                                <input id="email" name="email" type="text" class="form-control" placeholder="Enter email" value="{{ form.email.value|default_if_none:'' }}">
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Password <span style="color:red">*</span></label>
+                                <input id="password" name="password" type="password" class="form-control" placeholder="Enter your password">
+                                {{ form.password.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Confirm Password <span style="color:red">*</span></label>
+                                <input id="password_confirmation" name="password_confirmation" type="password" class="form-control" placeholder="Confirm password">
+                                {{ form.password_confirmation.errors }}
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button id="cancelBtn" class="btn btn-secondary profile-button" type="button">Cancel</button>
+                            <button id="saveBtn" class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}

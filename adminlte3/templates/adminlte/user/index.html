@@ -1,0 +1,60 @@
+{% extends 'adminlte/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h5 class="mb-4 mt-2"><strong>User</strong></h5>
+
+    <!-- Thanh tìm kiếm -->
+    <form method="GET" action="/users" class="mb-4">
+        <div class="input-group">
+            <input
+                type="text"
+                name="keyword"
+                class="form-control"
+                placeholder="Search by name or email"
+                id="search_input"
+            >
+            <button id="search_btn" type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5><strong>List of Users</strong></h5>
+        <button class="btn btn-success" onclick="window.location.href='/users/create'">
+            <i class="fas fa-user-plus"></i> Add New User
+        </button>
+    </div>
+
+    <!-- list of hotels -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <thead class="table-dark">
+            <tr>
+                <th>No.</th>
+                <th>Avatar</th>
+                <th>User name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}
